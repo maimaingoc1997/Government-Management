@@ -57,3 +57,5 @@ R
 "TestAPI/ContactsControllerTests.cs,2\9\2910243819bf75703ff79f98d60738cdcea05299
 Y
 )WebAPI/Controllers/ProgrammeController.cs,e\4\e47486ace537b20f7526d15083aa9eb8e60d6fba
+W
+'DataAccessLayer/Entities/PagedResult.cs,5\7\57f96faa351aa167cf0e59f4f83cb9c88e9d8e79

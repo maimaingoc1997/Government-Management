@@ -150,4 +150,47 @@ public class ContactsControllerTests
         // Assert
         Assert.IsType<NotFoundObjectResult>(result);
     }
+    [Fact]
+    public async Task GetAllContactsByFirstNameAndSurnameAndIsActive_ReturnsOkResult_WithPagedResult()
+    {
+        // Arrange
+        var firstName = "John";
+        var surname = "Doe";
+        var isActive = true;
+        var page = 1;
+        var pageSize = 4;
+
+        var pagedResult = new PagedResult<ContactDto>
+        {
+            Items = new List<ContactDto>
+            {
+                new ContactDto { Id = 1, Firstname = "John", Surname = "Doe", IsActive = true }
+            },
+            PageNumber = 1,
+            PageSize = 4,
+            TotalItems = 1,
+            TotalPages = 1
+        };
+
+        _mockContactService.Setup(service => service.GetAllContactsByFirstNameAndSurnameAndIsActive(
+            It.IsAny<string>(),
+            It.IsAny<string>(),
+            It.IsAny<bool?>(),
+            It.IsAny<int>(),
+            It.IsAny<int>()
+        )).ReturnsAsync(pagedResult);
+
+        // Act
+        var result = await _controller.GetAllContactsByFirstNameAndSurnameAndIsActive(firstName, surname, isActive, page, pageSize);
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnValue = Assert.IsType<PagedResult<ContactDto>>(okResult.Value);
+        Assert.Equal(1, returnValue.TotalItems);
+        Assert.Equal(pageSize, returnValue.PageSize);
+        Assert.Equal(page, returnValue.PageNumber);
+        Assert.Equal(1, returnValue.TotalPages);
+    }
+
+
 }
